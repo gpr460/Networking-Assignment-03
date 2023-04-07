@@ -48,6 +48,7 @@ private:
 				InputMemoryBitStream&	GetPacketBuffer()			{ return mPacketBuffer; }
 
 	private:
+		
 			
 		float					mReceivedTime;
 		InputMemoryBitStream	mPacketBuffer;
@@ -71,6 +72,8 @@ private:
 	float						mDropPacketChance;
 	float						mSimulatedLatency;
 	
+protected:
+	DeliveryNotificationManager mDeliveryNotificationManager;
 };
 
 	

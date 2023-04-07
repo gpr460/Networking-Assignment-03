@@ -155,6 +155,7 @@ void NetworkManagerServer::SendStatePacketToClient( ClientProxyPtr inClientProxy
 	statePacket.Write( kStateCC );
 
 	// TODO: Need to acquire an in flight packet here! 
+	InFlightPacket* packet = mDeliveryNotificationManager.WriteState(statePacket);
 
 	WriteLastMoveTimestampIfDirty( statePacket, inClientProxy );
 
@@ -165,6 +166,7 @@ void NetworkManagerServer::SendStatePacketToClient( ClientProxyPtr inClientProxy
 
 	// Need to set the transmission data of the in-flight packet we got on line 157
 	// to the transmission data we just created.
+	packet->SetTransmissionData('RMTD', TransmissionDataPtr(rmtd));
 
 	SendPacket( statePacket, inClientProxy->GetSocketAddress() );
 	

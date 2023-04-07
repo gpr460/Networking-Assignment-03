@@ -101,6 +101,8 @@ void NetworkManagerClient::HandleStatePacket( InputMemoryBitStream& inInputStrea
 {
 	if( mState == NCS_Welcomed )
 	{
+		mDeliveryNotificationManager.ReadAndProcessState(inInputStream);
+
 		ReadLastMoveProcessedOnServerTimestamp( inInputStream );
 
 		//old

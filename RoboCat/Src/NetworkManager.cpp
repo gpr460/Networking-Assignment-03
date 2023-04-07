@@ -1,9 +1,10 @@
 #include <RoboCatPCH.h>
 
 NetworkManager::NetworkManager() :
-	mBytesSentThisFrame( 0 ),
-	mDropPacketChance( 0.3f ),
-	mSimulatedLatency( 10.f )
+	mBytesSentThisFrame(0),
+	mDropPacketChance(0.3f),
+	mSimulatedLatency(10.f),
+	mDeliveryNotificationManager(true, true)
 {
 }
 
@@ -41,6 +42,8 @@ void NetworkManager::ProcessIncomingPackets()
 	ReadIncomingPacketsIntoQueue();
 
 	ProcessQueuedPackets();
+
+	mDeliveryNotificationManager.ProcessTimedOutPackets();
 
 	UpdateBytesSentLastFrame();
 
