@@ -209,6 +209,7 @@ void NetworkManagerClient::SendInputPacket()
 	if( moveList.HasMoves() )
 	{
 		OutputMemoryBitStream inputPacket; 
+		mDeliveryNotificationManager.WriteState(inputPacket); //correct placement?
 		inputPacket.Write( kInputCC );
 
 		//we only want to send the last three moves

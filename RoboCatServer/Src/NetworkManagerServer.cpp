@@ -166,7 +166,7 @@ void NetworkManagerServer::SendStatePacketToClient( ClientProxyPtr inClientProxy
 
 	// Need to set the transmission data of the in-flight packet we got on line 157
 	// to the transmission data we just created.
-	packet->SetTransmissionData('RMTD', TransmissionDataPtr(rmtd));
+	packet->SetTransmissionData('RPLM', TransmissionDataPtr(rmtd));
 
 	SendPacket( statePacket, inClientProxy->GetSocketAddress() );
 	
@@ -222,6 +222,7 @@ void NetworkManagerServer::HandleInputPacket( ClientProxyPtr inClientProxy, Inpu
 {
 	uint32_t moveCount = 0;
 	Move move;
+	mDeliveryNotificationManager.ReadAndProcessState(inInputStream); //correct placement?
 	inInputStream.Read( moveCount, 2 );
 	
 	for( ; moveCount > 0; --moveCount )
