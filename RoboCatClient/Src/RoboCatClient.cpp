@@ -26,6 +26,39 @@ void RoboCatClient::Update()
 {
 	//for now, we don't simulate any movement on the client side
 	//we only move when the server tells us to move
+	RoboCat::Update();
+
+	Vector3 oldLocation = GetLocation();
+	Vector3 oldVelocity = GetVelocity();
+	float oldRotation = GetRotation();
+
+	if (GetPlayerId() == NetworkManagerClient::sInstance->GetPlayerId())
+	{
+		MoveList& moveList = InputManager::sInstance->GetMoveList();
+		for (const Move& unprocessedMove : moveList)
+		{
+			const InputState& currentState = unprocessedMove.GetInputState();
+			float deltaTime = unprocessedMove.GetDeltaTime();
+			ProcessInput(deltaTime, currentState);
+			SimulateMovement(deltaTime);
+		}
+	}
+
+	HandleShooting();
+}
+
+void RoboCatClient::HandleShooting()
+{
+	float time = Timing::sInstance.GetFrameStartTime();
+	if (mIsShooting && Timing::sInstance.GetFrameStartTime() > mTimeOfNextShot)
+	{
+		//not exact, but okay
+		mTimeOfNextShot = time + mTimeBetweenShots;
+
+		//fire!
+		YarnPtr yarn = std::static_pointer_cast<Yarn>(GameObjectRegistry::sInstance->CreateGameObject('YARN'));
+		yarn->InitFromShooter(this);
+	}
 }
 
 void RoboCatClient::Read( InputMemoryBitStream& inInputStream )

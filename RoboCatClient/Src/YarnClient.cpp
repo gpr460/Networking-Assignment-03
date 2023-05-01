@@ -6,6 +6,10 @@ YarnClient::YarnClient()
 	mSpriteComponent->SetTexture( TextureManager::sInstance->GetTexture( "yarn" ) );
 }
 
+void YarnClient::Update()
+{
+	Yarn::Update();
+}
 
 void YarnClient::Read( InputMemoryBitStream& inInputStream )
 {

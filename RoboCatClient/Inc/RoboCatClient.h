@@ -17,4 +17,8 @@ private:
 	float				mTimeVelocityBecameOutOfSync;
 	
 	SpriteComponentPtr	mSpriteComponent;
+
+	float mTimeOfNextShot;
+	float mTimeBetweenShots;
+	void HandleShooting();
 };
