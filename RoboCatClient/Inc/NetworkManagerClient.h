@@ -23,6 +23,8 @@ public:
 			float									GetRoundTripTime()		const	{ return mAvgRoundTripTime.GetValue(); }
 			int		GetPlayerId()											const	{ return mPlayerId; }
 			float	GetLastMoveProcessedByServerTimestamp()					const	{ return mLastMoveProcessedByServerTimestamp; }
+
+			vector<YarnPtr> mClientYarnVector;
 private:
 			NetworkManagerClient();
 			void Init( const SocketAddress& inServerAddress, const string& inName );

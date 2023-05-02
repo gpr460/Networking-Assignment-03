@@ -4,11 +4,18 @@ YarnClient::YarnClient()
 {
 	mSpriteComponent.reset( new SpriteComponent( this ) );
 	mSpriteComponent->SetTexture( TextureManager::sInstance->GetTexture( "yarn" ) );
+
+	mTimeToDie = Timing::sInstance.GetFrameStartTime() + 1.f;
 }
 
 void YarnClient::Update()
 {
 	Yarn::Update();
+
+	if (Timing::sInstance.GetFrameStartTime() > mTimeToDie)
+	{
+		SetDoesWantToDie(true);
+	}
 }
 
 void YarnClient::Read( InputMemoryBitStream& inInputStream )

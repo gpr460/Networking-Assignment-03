@@ -50,6 +50,18 @@ void ReplicationManagerClient::ReadAndDoCreateAction( InputMemoryBitStream& inIn
 
 	//and read state
 	gameObject->Read( inInputStream );
+
+	//delete yarn from vector
+	if (fourCCName == 'YARN')
+	{
+		if (NetworkManagerClient::sInstance->mClientYarnVector.size() <= 0) return;
+		else
+		{
+			World::sInstance->RemoveGameObject(NetworkManagerClient::sInstance->mClientYarnVector[0]);
+
+			NetworkManagerClient::sInstance->mClientYarnVector.erase(NetworkManagerClient::sInstance->mClientYarnVector.begin());
+		}
+	}
 }
 
 void ReplicationManagerClient::ReadAndDoUpdateAction( InputMemoryBitStream& inInputStream, int inNetworkId )

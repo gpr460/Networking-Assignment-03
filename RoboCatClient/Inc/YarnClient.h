@@ -12,4 +12,6 @@ protected:
 private:
 
 	SpriteComponentPtr	mSpriteComponent;
+
+	float mTimeToDie;
 };

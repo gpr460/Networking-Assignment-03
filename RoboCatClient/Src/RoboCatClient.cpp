@@ -4,10 +4,11 @@
 
 RoboCatClient::RoboCatClient() :
 	mTimeLocationBecameOutOfSync( 0.f ),
-	mTimeVelocityBecameOutOfSync( 0.f )
+	mTimeVelocityBecameOutOfSync( 0.f ),
+	mTimeBetweenShots(0.2f)
 {
 	mSpriteComponent.reset( new SpriteComponent( this ) );
-	mSpriteComponent->SetTexture( TextureManager::sInstance->GetTexture( "cat" ) );
+	mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("cat"));
 }
 
 void RoboCatClient::HandleDying()
@@ -42,9 +43,16 @@ void RoboCatClient::Update()
 			ProcessInput(deltaTime, currentState);
 			SimulateMovement(deltaTime);
 		}
+
+		HandleShooting();
 	}
 
-	HandleShooting();
+	else
+	{
+		float deltaTime = Timing::sInstance.GetDeltaTime();
+		SimulateMovement(deltaTime);
+		SimulateMovement(deltaTime);
+	}
 }
 
 void RoboCatClient::HandleShooting()
@@ -58,6 +66,7 @@ void RoboCatClient::HandleShooting()
 		//fire!
 		YarnPtr yarn = std::static_pointer_cast<Yarn>(GameObjectRegistry::sInstance->CreateGameObject('YARN'));
 		yarn->InitFromShooter(this);
+		NetworkManagerClient::sInstance->mClientYarnVector.push_back(yarn);
 	}
 }
 
